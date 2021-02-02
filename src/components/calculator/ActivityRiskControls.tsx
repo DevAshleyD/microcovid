@@ -66,7 +66,6 @@ export const ActivityRiskControls: React.FunctionComponent<{
       <SegmentedControl
         id="yourMask"
         header={t('calculator.precautions.your_mask_header')}
-        label={t('calculator.precautions.your_mask_question')}
         helpText={t('calculator.precautions.your_mask_note')}
         popover={maskPopover}
         data={data}
@@ -75,10 +74,14 @@ export const ActivityRiskControls: React.FunctionComponent<{
         variant="outline-cyan"
         className="segmented-scrollable"
       />
+      {data.yourMask === 'other' && (
+        <div className="warning">
+          {t('calculator.precautions.other_mask_explanation')}
+        </div>
+      )}
       <SegmentedControl
         id="theirMask"
         header={t('calculator.precautions.their_mask_header')}
-        label={t('calculator.precautions.their_mask_question')}
         helpText={t('calculator.precautions.their_mask_note')}
         popover={maskPopover}
         data={data}
@@ -87,6 +90,11 @@ export const ActivityRiskControls: React.FunctionComponent<{
         variant="outline-secondary"
         className="segmented-scrollable"
       />
+      {data.theirMask === 'other' && (
+        <div className="warning">
+          {t('calculator.precautions.other_mask_explanation')}
+        </div>
+      )}
       <SelectControl
         id="voice"
         header={t('calculator.precautions.volume_header')}

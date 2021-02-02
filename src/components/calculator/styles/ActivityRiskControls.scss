@@ -14,39 +14,19 @@
   border-color: $gray-400;
 }
 
-#yourMask.segmented-scrollable .btn:hover {
-  background-color: desaturate(lighten($cyan, 15%), 15%);
-}
-
-#theirMask.segmented-scrollable .btn:hover {
-  background-color: $gray-500;
-}
-
-#yourMask.segmented-scrollable .active:hover {
-  background-color: $cyan !important;
-}
-
-#theirMask.segmented-scrollable .active:hover {
-  background-color: $secondary !important;
-}
-
-#yourMask.segmented-scrollable .active:hover span {
-  color: desaturate(lighten($cyan, 35%), 25%);
-}
-
-#theirMask.segmented-scrollable .active:hover span {
-  color: $gray-300;
-}
-
 .segmented-label {
   font-weight: bold;
-  min-height: 3.5em;
+  min-height: 3.1em;
   display: block;
 }
 
 .segmented-multiplier {
   font-size: small;
   color: $gray-600;
+}
+
+.segmented-value {
+  display: none;  // hide on desktop
 }
 
 .btn:hover .segmented-multiplier {
@@ -61,3 +41,74 @@
   color: $white;
   font-weight: bolder;
 }
+
+#yourMask.segmented-scrollable .btn:hover {
+  background-color: desaturate(lighten($cyan, 15%), 15%);
+}
+
+#yourMask.segmented-scrollable .active:hover {
+  background-color: $cyan !important;
+}
+
+#yourMask.segmented-scrollable .active:hover span {
+  color: desaturate(lighten($cyan, 35%), 25%);
+}
+
+#theirMask.segmented-scrollable .btn:hover {
+  background-color: $gray-500;
+}
+
+#theirMask.segmented-scrollable .active:hover {
+  background-color: $secondary !important;
+}
+
+#theirMask.segmented-scrollable .active:hover span {
+  color: $gray-300;
+}
+
+// DONOTSUBMIT move this all to segmented controls scss file
+@media (max-width: 576px) {
+  .segmented-wrap {
+    padding-left: 1px;
+    flex-wrap: wrap;
+  }
+
+  .segmented-button {
+    width: 100%;
+    // DONOTSUBMIT uncomment to get three buttons per row
+    //max-width: 33.33333%;
+  }
+
+  .segmented-label {
+    text-align: left;
+    min-height: 0;
+    display: inline;
+    float: left;
+  }
+
+  .segmented-multiplier {
+    display: inline;
+    float: right;
+  }
+
+  .active .segmented-value {
+    display: inline;
+    color: $gray-500;
+    float: left;
+  }
+  .active:hover .segmented-value {
+    color: $white;
+  }
+
+  .segmented-scrollable .active span {
+    color: $white !important;
+  }
+  .segmented-scrollable .active:hover span {
+    color: $white !important;
+  }
+
+  .segmented-tooltip {
+    display: none !important;
+  }
+}
+

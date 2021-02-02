@@ -1,6 +1,12 @@
 import num2fraction from 'num2fraction'
-import React, { useState } from 'react'
-import { Form, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
+import React from 'react'
+import {
+  Form,
+  OverlayTrigger,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import ControlLabel from './ControlLabel'
@@ -20,18 +26,9 @@ export const SegmentedControl: React.FunctionComponent<{
   className?: string
   labelFactory?: (value: string) => string
   variant?: string
-  showActiveDesc?: boolean
 }> = (props) => {
   const dataValue = props.id in props.data ? props.data[props.id] : ''
   const activeValue = typeof dataValue === 'string' ? dataValue : ''
-  const [activeDesc, setActiveDesc] = useState(
-    activeValue && activeValue in props.source
-      ? props.source[activeValue].value
-      : props.helpText
-      ? props.helpText
-      : '',
-  )
-  const [hoverDesc, setHoverDesc] = useState(activeDesc)
   const { t } = useTranslation()
   // 0.25 -> "1/4x"
   function formatRiskMultiplierInternal(multiplier: number): string {
@@ -61,47 +58,67 @@ export const SegmentedControl: React.FunctionComponent<{
         header={props.header}
         popover={props.popover}
       />
-      <ToggleButtonGroup
-        type="radio"
-        name={props.id}
-        id={props.id}
-        className={props.className}
-        value={activeValue}
-      >
-        {Object.keys(props.source).map((value, index) => (
-          <ToggleButton
-            key={index}
-            type="radio"
-            variant={props.variant}
-            name={props.id}
-            value={value}
-            checked={props.data[props.id] === value}
-            onMouseEnter={() => setHoverDesc(props.source[value].value)}
-            onMouseLeave={() => setHoverDesc('')}
-            onChange={(e) => {
-              setActiveDesc(props.source[value].value)
-              props.setter({ ...props.data, [props.id]: e.currentTarget.value })
-            }}
-          >
-            <span className="segmented-label">
-              {props.labelFactory
-                ? props.labelFactory(value)
-                : props.source[value].label}
-            </span>
-            <span className="segmented-multiplier">
-              {props.labelFactory
-                ? ''
-                : formatRiskMultiplier(
-                    props.hideRisk,
-                    props.source[value].multiplier,
-                  )}
-            </span>
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
-      <Form.Text id={props.id + 'HelpText'} muted>
-        {hoverDesc || activeDesc}
-      </Form.Text>
+      <div className="segmented-scrollable">
+        <ToggleButtonGroup
+          type="radio"
+          name={props.id}
+          id={props.id}
+          className={'segmented-wrap ' + props.className}
+          value={activeValue}
+        >
+          {Object.keys(props.source).map((value, index) => (
+            <OverlayTrigger
+              placement="top"
+              key={value}
+              overlay={
+                <Tooltip
+                  id={props.id + '-tooltip-' + value}
+                  className="segmented-tooltip"
+                  // DONOTSUBMIT show={props.data[props.id] === value}
+                >
+                  {props.source[value].value}
+                </Tooltip>
+              }
+            >
+              <ToggleButton
+                key={index}
+                type="radio"
+                variant={props.variant}
+                name={props.id}
+                value={value}
+                className="segmented-button"
+                checked={props.data[props.id] === value}
+                onChange={(e) => {
+                  props.setter({
+                    ...props.data,
+                    [props.id]: e.currentTarget.value,
+                  })
+                }}
+              >
+                <span className="segmented-label">
+                  {props.labelFactory
+                    ? props.labelFactory(value)
+                    : props.source[value].label}
+                </span>
+                <span className="segmented-multiplier">
+                  {props.labelFactory
+                    ? ''
+                    : formatRiskMultiplier(
+                        props.hideRisk,
+                        props.source[value].multiplier,
+                      )}
+                </span>
+                <span className="segmented-value">
+                  {props.source[value].value}
+                </span>
+              </ToggleButton>
+            </OverlayTrigger>
+          ))}
+        </ToggleButtonGroup>
+        <Form.Text id={props.id + 'HelpText'} muted>
+          {props.helpText}
+        </Form.Text>
+      </div>
     </div>
   )
 }
