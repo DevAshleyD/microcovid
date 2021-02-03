@@ -426,7 +426,7 @@ export const PrevalenceControls: React.FunctionComponent<{
                   >
                     Covid Act Now
                   </a>{' '}
-                  (US positive test rates), {}
+                  (US positive test rates), and {}
                   <a
                     href="https://ourworldindata.org/coronavirus-testing#testing-for-covid-19-background-the-our-world-in-data-covid-19-testing-dataset"
                     target="_blank"
@@ -434,15 +434,7 @@ export const PrevalenceControls: React.FunctionComponent<{
                   >
                     Our World in Data
                   </a>{' '}
-                  (international positive test rates), and {}
-                  <a
-                    href="https://covid19.geo-spatial.org/despre"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Coronavirus COVID-19 România
-                  </a>{' '}
-                  (Romania reported cases).
+                  (international positive test rates).
                 </Trans>
               </p>
             </div>
